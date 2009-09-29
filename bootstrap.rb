@@ -21,7 +21,7 @@ cmd "ln -sfv /usr/bin/gem1.8 /usr/bin/gem"
 cmd "gem install rdoc chef ohai --no-ri --no-rdoc --source http://gems.opscode.com --source http://gems.rubyforge.org"
 
 if CHEF_550
-  cmd "cd /usr/lib/ruby/gems/1.8/gems/chef-0.7.10/lib/chef/provider && sed -i 's/Chef::Config\[:file_cache_path\]/::File.expand_path(Chef::Config\[:file_cache_path\])/' template.rb"
+  cmd %q{sed -i 's/Chef::Config\[:file_cache_path\]/::File.expand_path(Chef::Config\[:file_cache_path\])/' /usr/lib/ruby/gems/1.8/gems/chef-0.7.10/lib/chef/provider/template.rb}
 end
 
 # opscode cookbooks
