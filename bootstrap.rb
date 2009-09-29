@@ -18,19 +18,17 @@ cmd "curl -L 'http://rubyforge.org/frs/download.php/45905/rubygems-1.3.1.tgz' | 
 cmd "cd rubygems* && ruby setup.rb --no-ri --no-rdoc"
 cmd "ln -sfv /usr/bin/gem1.8 /usr/bin/gem"
 
-unless CHEF_550
-  cmd "gem install rdoc chef ohai --no-ri --no-rdoc --source http://gems.opscode.com --source http://gems.rubyforge.org"
-else
-  cmd "gem install rake cucumber rspec merb-core merb-slices merb-assets merb-helpers merb-haml mixlib-config mixlib-log mixlib-cli stomp coderay rdoc ohai --no-ri --no-rdoc --source http://gems.opscode.com --source http://gems.rubyforge.org"
-  cmd "git clone git://github.com/opscode/chef.git"
-  cmd "cd chef && git remote add dawanda git://github.com/dawanda/chef.git"
-  cmd "cd chef && git pull dawanda CHEF-550"
-  cmd "cd chef && rake gem"
-  cmd "cd chef && rake install"
+cmd "gem install rdoc chef ohai --no-ri --no-rdoc --source http://gems.opscode.com --source http://gems.rubyforge.org"
+
+if CHEF_550
+  cmd "cd /usr/lib/ruby/gems/1.8/gems/chef-0.7.10/lib/chef/provider && sed -i 's/Chef::Config\[:file_cache_path\]/::File.expand_path(Chef::Config\[:file_cache_path\])/' template.rb"
 end
 
 # opscode cookbooks
 cmd "git clone git://github.com/opscode/cookbooks.git"
+
+# disable postgresql ssl for the moment
+cmd "sed -i 's/ssl = true/ssl = false/' cookbooks/postgresql/templates/default/postgresql.conf.erb"
 
 # cmd "yes | mkfs -t ext3 /dev/sdq1"
 # cmd "yes | mkfs -t ext3 /dev/sdq2"
