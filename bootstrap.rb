@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+# Run this before running the bootstrap: 
+#   aptitude -y update && apt-get -y install git-core
+
 CHEF_550 = true # Until CHEF-550 is merged into master
 
 def cmd(cmd)
@@ -25,6 +28,9 @@ else
   cmd "cd chef && rake gem"
   cmd "cd chef && rake install"
 end
+
+# opscode cookbooks
+cmd "git clone git://github.com/opscode/cookbooks.git"
 
 # cmd "yes | mkfs -t ext3 /dev/sdq1"
 # cmd "yes | mkfs -t ext3 /dev/sdq2"
