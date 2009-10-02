@@ -31,6 +31,13 @@ cmd "sed -i 's/ssl = true/ssl = false/' cookbooks/postgresql/templates/default/p
 # cmd "yes | mkfs -t ext3 /dev/sdq1"
 # cmd "yes | mkfs -t ext3 /dev/sdq2"
 
-puts
-puts "Done!"
-puts '-' * 80
+version = system('gem -v')
+unless version
+  puts '*' * 80
+  puts '**** ERROR: MISSING RUBYGEMS'
+  puts '*' * 80
+else
+  puts '-' * 80
+  puts "Done!"
+  puts '-' * 80
+end
